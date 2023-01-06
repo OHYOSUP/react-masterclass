@@ -12,7 +12,8 @@ import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
-import Helmet from "react-helmet"
+import Helmet from "react-helmet";
+import App from "../App";
 
 const Title = styled.h1`
   font-size: 48px;
@@ -60,6 +61,21 @@ const Tabs = styled.div`
   grid-template-columns: repeat(2, 1fr);
   margin: 25px 0px;
   gap: 10px;
+`;
+const BackTab = styled.div`
+  width: 5vw;
+  height: 5vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: ${(props) => props.theme.textColor};
+  cursor: pointer;
 `;
 const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
@@ -134,6 +150,7 @@ interface PriceData {
     };
   };
 }
+
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
@@ -147,23 +164,29 @@ function Coin() {
     ["tickers", coinId],
     () => fetchCoinTickers(coinId),
     {
-      refetchInterval: 5000
+      refetchInterval: 5000,
     }
   );
   const loading = infoLoading || tickersLoading;
-  
-    
 
   return (
     <Container>
       <Helmet>
-        <title> {state?.name ? state.name : loading ? "Loading..." : infoData?.name}</title>
+        <title>
+          {" "}
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
       </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
+
+    <Link to = "/">
+    <BackTab>Back</BackTab>
+    </Link>
+
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -204,7 +227,7 @@ function Coin() {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />

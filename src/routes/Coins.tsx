@@ -74,7 +74,9 @@ function Coins() {
       <Header>
         <Title>코인</Title>
       </Header>
+
       <CoinsList>
+        
         {isLoading ? (
           <Loader>loading...</Loader>
         ) : (
