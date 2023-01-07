@@ -151,6 +151,11 @@ interface PriceData {
   };
 }
 
+interface ICoinProps {
+  toggleMode: () => void;
+  mode : boolean;
+}
+
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
@@ -175,17 +180,19 @@ function Coin() {
         <title>
           {" "}
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          
         </title>
       </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          <button>toggle mode</button>
         </Title>
       </Header>
 
-    <Link to = "/">
-    <BackTab>Back</BackTab>
-    </Link>
+      <Link to="/">
+        <BackTab>Back</BackTab>
+      </Link>
 
       {loading ? (
         <Loader>Loading...</Loader>
